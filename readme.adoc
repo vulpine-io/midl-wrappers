@@ -1,7 +1,7 @@
 = Midl Wrappers
 
 Useful default implementations of the `RequestWrapper` interface defined in
-https://github.com/vulpine-io/midl[vulpine-io/midle].
+https://github.com/vulpine-io/midl[vulpine-io/midl].
 
 == Implementations
 
