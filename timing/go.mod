@@ -1,4 +1,4 @@
-module github.com/vulpine-io/midl-wrappers/timing
+module github.com/vulpine-io/midl-wrappers/timing/v1
 
 go 1.14
 
