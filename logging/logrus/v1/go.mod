@@ -1,4 +1,4 @@
-module github.com/vulpine-io/midl-wrappers/logging/logrus
+module github.com/vulpine-io/midl-wrappers/logging/logrus/v1
 
 go 1.14
 
