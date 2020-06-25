@@ -1,0 +1,73 @@
+= Midl Wrappers
+
+Useful default implementations of the `RequestWrapper` interface defined in
+https://github.com/vulpine-io/midl[vulpine-io/midle].
+
+== Implementations
+
+=== Request Logging
+
+==== Logrus
+
+Includes an implemenation of `RequestWrapper` that uses
+https://github.com/sirupsen/logrus[logrus] for logging.
+
+[source, shell-session]
+----
+$ go get github.com/vulpine-io/midl-wrappers/logging/logrus
+----
+
+[source, go]
+----
+package main
+
+import (
+	"github.com/sirupsen/logrus"
+	"github.com/vulpine-io/midl/v1/pkg/midl"
+	"github.com/vulpine-io/midl-wrappers/logging/logrus/v1/pkg/midllog"
+)
+
+func main() {
+	reqLogger := midllog.NewSimpleLogger()
+
+	serv := midl.JSONAdapter().
+		AddWrappers(midllog.NewLogEntryWrapper(
+			logrus.WithField("foo", "bar"),
+			reqLogger,
+			reqLogger))
+}
+----
+
+=== Timing
+
+==== Request Timer
+
+A simple wrapper that records the time a request started and finished
+including all middleware and any wrappers appended to the midl.Adapter after
+the timer.
+
+[source, shell-session]
+----
+$ go get github.com/vulpine-io/midl-wrappers/timing
+----
+
+[source, go]
+----
+package main
+
+import (
+	"github.com/sirupsen/logrus"
+	"github.com/vulpine-io/midl/v1/pkg/midl"
+	"github.com/vulpine-io/midl-wrappers/timing/v1/pkg/midltime"
+)
+
+func main() {
+	cb := midltime.TimingCallbackFn(func(timing midltime.Timing) {
+		duration := timing.End.Sub(timing.Start)
+		// Do something with the time
+	})
+
+	serv := midl.JSONAdapter().
+		AddWrappers(midltime.NewTimingWrapper(cb))
+}
+----
